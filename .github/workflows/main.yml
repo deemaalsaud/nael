@@ -1,43 +1,26 @@
-name: CI
+name: Build CI
 
-# Controls when the action will run.
 on:
-# Triggers the workflow on push or pull request events but only for the main branch
   push:
-        branches: [ main ]
+    branches: [main]
   pull_request:
-       branches: [ main ]
-
-
-# Allows you to run this workflow manually from the Actions tab
-
+    branches: [main]
   workflow_dispatch:
 
-
-
-
-# A workflow run is made up of one or more jobs that can run sequentially or in par
 jobs:
-# This workflow contains a single job called "build"
- build:
-# The type of runner that the job will run on
-   runs-on: ubuntu-latest
-# Steps represent a sequence of tasks that will be executed as part of the job
-   steps:
+  build:
+    runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v2
 
-# Checks-out your repository under SGITHUB_WORKSPACE, so your job can access
-     - uses: actions/checkout@v2
-
-
-
-     - name: JMeter Test
-       uses: QAInsights/PerfAction@v5.6.2
-       with:
-        test-plan-path: ./test.jmx
-     - name: Upload Results
-       uses: actions/upload-artifact@v3
-       with:
-        name: jmeter-results
-        path: result.jtl
- 
+      - name: JMeter Test
+        uses: QAInsights/PerfAction@v5.6.2
+        with:
+          test-plan-path: './test2.jmx'
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-results
+          path: result.jtl
+          if-no-files-found: error
